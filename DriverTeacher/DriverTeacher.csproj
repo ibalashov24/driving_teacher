@@ -4,4 +4,13 @@
         <TargetFramework>netcoreapp3.1</TargetFramework>
     </PropertyGroup>
 
+    <ItemGroup>
+      <None Include="wwwroot\Signs\leftright.png" />
+      <None Include="wwwroot\Signs\oneway.png" />
+      <None Include="wwwroot\Signs\rest30.png" />
+      <None Include="wwwroot\Signs\rest40.png" />
+      <None Include="wwwroot\Signs\secondary.png" />
+      <None Include="wwwroot\Signs\stop.png" />
+    </ItemGroup>
+
 </Project>

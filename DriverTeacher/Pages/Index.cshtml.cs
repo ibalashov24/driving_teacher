@@ -10,7 +10,6 @@ namespace DriverTeacher.Pages
 {
     public class IndexModel : PageModel
     {
-        public string UserName { get; set; }
 
         private readonly ILogger<IndexModel> _logger;
 
@@ -21,13 +20,6 @@ namespace DriverTeacher.Pages
 
         public void OnGet(string username)
         {
-            var lowerUsername = username.ToLower();
-            if (lowerUsername == string.Empty)
-            {
-                return;
-            }
-
-            UserName = lowerUsername;
         }
     }
 }
