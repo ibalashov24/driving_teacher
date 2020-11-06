@@ -1,24 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.Extensions.Logging;
-
-namespace DriverTeacher.Pages
+﻿namespace DriverTeacher.Pages.Teacher
 {
+    using Microsoft.AspNetCore.Mvc.RazorPages;
+    using Microsoft.Extensions.Logging;
+
     public class PrivacyModel : PageModel
     {
-        private readonly ILogger<PrivacyModel> _logger;
+        private readonly ILogger<PrivacyModel> logger;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PrivacyModel"/> class.
+        /// </summary>
+        /// <param name="logger">Logger for service events.</param>
         public PrivacyModel(ILogger<PrivacyModel> logger)
         {
-            _logger = logger;
-        }
-
-        public void OnGet()
-        {
+            this.logger = logger;
         }
     }
 }

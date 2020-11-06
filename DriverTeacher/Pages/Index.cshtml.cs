@@ -15,23 +15,37 @@ namespace DriverTeacher.Pages
     {
         private readonly IConfiguration configuration;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Index"/> class.
+        /// </summary>
+        /// <param name="configuration">Application configuration.</param>
         public Index(IConfiguration configuration)
         {
             this.configuration = configuration;
         }
 
-        [BindProperty]
-        public string ReturnUrl { get; set; }
-
+        /// <summary>
+        /// Gets or sets username of the user being authenticated.
+        /// </summary>
         [BindProperty]
         public string Username { get; set; }
 
+        /// <summary>
+        /// Gets or sets password of the user being authenticated.
+        /// </summary>
         [BindProperty]
         [DataType(DataType.Password)]
         public string Password { get; set; }
 
+        /// <summary>
+        /// Gets or sets status message for the user.
+        /// </summary>
         public string Message { get; set; }
 
+        /// <summary>
+        /// Handles user credentials form.
+        /// </summary>
+        /// <returns>Resulting page after authentication.</returns>
         public async Task<IActionResult> OnPost()
         {
             var user = this.configuration.GetSection("SiteUser").Get<User>();
@@ -47,7 +61,6 @@ namespace DriverTeacher.Pages
                     CookieAuthenticationDefaults.AuthenticationScheme,
                     new ClaimsPrincipal(claimIdentity));
 
-                this.Message = "Again";
                 return this.RedirectToPage("/Teacher/Map");
             }
 
