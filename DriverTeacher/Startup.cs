@@ -1,3 +1,6 @@
+using DriverTeacher.Models;
+using Microsoft.EntityFrameworkCore;
+
 namespace DriverTeacher
 {
     using System;
@@ -26,6 +29,10 @@ namespace DriverTeacher
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // User database connection
+            var dbConntecion = this.Configuration.GetConnectionString("DefaultConnection");
+            services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(dbConntecion));
+
             services.AddRazorPages();
 
             // Authentication
@@ -38,7 +45,8 @@ namespace DriverTeacher
             {
                 cookieOptions.LoginPath = "/Index";
             });
-            
+
+            // Authorization
             services.AddMvc().AddRazorPagesOptions(options =>
             {
                 options.Conventions.AuthorizeFolder("/Teacher");
