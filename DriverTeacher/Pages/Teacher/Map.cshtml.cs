@@ -1,4 +1,10 @@
-﻿namespace DriverTeacher.Pages.Teacher
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using DriverTeacher.Models;
+using Microsoft.AspNetCore.Mvc;
+
+namespace DriverTeacher.Pages.Teacher
 {
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -7,18 +13,29 @@
     [Authorize]
     public class MapModel : PageModel
     {
-        /// <summary>
-        /// Logger for service events.
-        /// </summary>
-        private readonly ILogger<MapModel> logger;
+        // Comment database context
+        private readonly ApplicationCommentContext commentContext;
+
+        // Comment field
+        [BindProperty]
+        public List<Comment> UserComments { get; private set; }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="MapModel"/> class.
+        /// Initializes a new instance of the <see cref="Index"/> class.
         /// </summary>
-        /// <param name="logger">Logger for service events.</param>
-        public MapModel(ILogger<MapModel> logger)
-            {
-            this.logger = logger;
+        /// <param name="commentContext">Application commentContext.</param>
+        public MapModel(ApplicationCommentContext commentContext)
+        {
+            this.commentContext = commentContext;
+        }
+
+        public void OnGet()
+        {
+            // Retrieves current user's comments
+            this.UserComments = this.commentContext
+                .Comments
+                .Where(comment => comment.Username == this.HttpContext.User.ToString())
+                .ToList();
         }
     }
 }

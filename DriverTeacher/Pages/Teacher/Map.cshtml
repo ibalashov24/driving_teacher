@@ -1,5 +1,6 @@
 ﻿@page
 @model DriverTeacher.Pages.Teacher.MapModel
+
 @{
     ViewData["Title"] = "Главная";
 }
@@ -333,5 +334,17 @@
                           });
 
          L.marker([sign[0], sign[1]], {icon: signMarker}).addTo(map);
+      }
+      
+      // Drawing user comments
+      for (const comment of @this.Model.UserComments)
+      {
+          var popup = L.popup({
+                    closeButton: false,
+                    autoClose: false
+                  })
+                  .setLatLng([comment.XCoord, comment.YCoord])
+                  .setContent('<p>comment.Text</p>')
+                  .openOn(map);    
       }
 </script>

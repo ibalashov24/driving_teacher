@@ -19,13 +19,13 @@ namespace DriverTeacher.Pages
 
     public class Index : PageModel
     {
-        private readonly ApplicationDbContext context;
+        private readonly ApplicationUserContext context;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Index"/> class.
         /// </summary>
         /// <param name="context">Application context.</param>
-        public Index(ApplicationDbContext context)
+        public Index(ApplicationUserContext context)
         {
             this.context = context;
         }

@@ -30,9 +30,14 @@ namespace DriverTeacher
         public void ConfigureServices(IServiceCollection services)
         {
             // User database connection
-            var dbConntecion = this.Configuration.GetConnectionString("DefaultConnection");
-            services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(dbConntecion));
+            var loginConnection = this.Configuration.GetConnectionString("LoginConnection");
+            services.AddDbContext<ApplicationUserContext>(options => options.UseSqlServer(loginConnection));
 
+            // Comment database connection
+            var commentConnection = this.Configuration.GetConnectionString("CommentConnection");
+            services.AddDbContext<ApplicationUserContext>(options => options.UseSqlServer(commentConnection));
+
+            // Razor Parges initialization
             services.AddRazorPages();
 
             // Authentication

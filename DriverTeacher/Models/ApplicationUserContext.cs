@@ -2,7 +2,7 @@ namespace DriverTeacher.Models
 {
     using Microsoft.EntityFrameworkCore;
 
-    public sealed class ApplicationDbContext : DbContext
+    public sealed class ApplicationUserContext : DbContext
     {
         /// <summary>
         /// Gets or sets application users.
@@ -10,10 +10,10 @@ namespace DriverTeacher.Models
         public DbSet<User> Users { get; set; }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ApplicationDbContext"/> class.
+        /// Initializes a new instance of the <see cref="ApplicationUserContext"/> class.
         /// </summary>
         /// <param name="options">DB options.</param>
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
+        public ApplicationUserContext(DbContextOptions<ApplicationUserContext> options)
             : base(options)
         {
             this.Database.EnsureCreated();
