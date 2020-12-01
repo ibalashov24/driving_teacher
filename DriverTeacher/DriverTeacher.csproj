@@ -23,7 +23,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Content Include=".github\teacher.yml" />
+      <Content Include=".github\workflows\teacher.yml" />
     </ItemGroup>
 
 </Project>
