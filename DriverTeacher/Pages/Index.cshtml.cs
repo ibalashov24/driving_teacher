@@ -76,7 +76,7 @@ namespace DriverTeacher.Pages
             var passwordHash = CalcStringSha256(this.Password);
 
             if (this.context.Users
-                .Any(a => a.Username == this.Username && a.PasswordHash == passwordHash))
+                .Any(a => a.Username == this.Username && a.Password_Hash == passwordHash))
             {
                 var claims = new List<Claim>
                 {

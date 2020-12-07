@@ -15,9 +15,9 @@
             crossorigin=""></script>
       
     <script src="https://rawgit.com/bbecquet/Leaflet.PolylineDecorator/master/dist/leaflet.polylineDecorator.js"></script>
+    <script src="/lib/jquery/dist/jquery.min.js"></script>
 }
 
-// Leaflet integration
 <div id="map" class="fixed-bottom" style="width: 100%; height: calc(100% - 55px); "></div>
 <script>
     // Drawing map
@@ -336,15 +336,28 @@
          L.marker([sign[0], sign[1]], {icon: signMarker}).addTo(map);
       }
       
-      // Drawing user comments
-      for (const comment of @this.Model.UserComments)
-      {
-          var popup = L.popup({
-                    closeButton: false,
-                    autoClose: false
+      $.ajax({
+          method: "GET",
+          url: "@Url.Page("/Teacher/Map")?handler=Comments",
+          data: "",
+          contentType: "application/json; charset=utf-8",
+          dataType: "json",
+          cache: false,
+          success: function(commentsJson) 
+          {
+              const comments = JSON.parse(commentsJson);   
+              for (const comment of comments) {
+                  L.popup({
+                        closeOnClick: false,
+                        closeButton: true,
+                        autoClose: false
                   })
                   .setLatLng([comment.XCoord, comment.YCoord])
-                  .setContent('<p>comment.Text</p>')
+                  .setContent(comment.Text)
                   .openOn(map);    
-      }
+              }
+          },
+          failure: function(){ }
+      });
+ 
 </script>

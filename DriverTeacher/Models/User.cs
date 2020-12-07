@@ -18,6 +18,6 @@ namespace DriverTeacher.Models
         /// <summary>
         /// Gets or sets user password.
         /// </summary>
-        public string PasswordHash { get; set; }
+        public string Password_Hash { get; set; }
     }
 }

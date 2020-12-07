@@ -10,6 +10,11 @@ namespace DriverTeacher.Models
         public DbSet<User> Users { get; set; }
 
         /// <summary>
+        /// Gets or sets application comments.
+        /// </summary>
+        public DbSet<Comment> Comments { get; set; }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="ApplicationUserContext"/> class.
         /// </summary>
         /// <param name="options">DB options.</param>

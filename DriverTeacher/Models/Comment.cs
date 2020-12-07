@@ -18,12 +18,12 @@ namespace DriverTeacher.Models
         /// <summary>
         /// Gets or sets comment's X coordinate.
         /// </summary>
-        public string XCoord { get; set; }
+        public float XCoord { get; set; }
 
         /// <summary>
         /// Gets or sets comment's Y coordinate.
         /// </summary>
-        public string YCoord { get; set; }
+        public float YCoord { get; set; }
 
         /// <summary>
         /// Gets or sets comment text.
