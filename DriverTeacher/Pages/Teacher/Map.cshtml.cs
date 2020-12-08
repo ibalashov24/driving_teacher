@@ -7,6 +7,7 @@ using DriverTeacher.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json;
+using System.Web;
 
 namespace DriverTeacher.Pages.Teacher
 {
@@ -19,6 +20,11 @@ namespace DriverTeacher.Pages.Teacher
     {
         // Comment database context
         private readonly ApplicationUserContext context;
+
+        /// <summary>
+        /// Gets current user's name.
+        /// </summary>
+        private string CurrentUsername => this.User.FindFirstValue(ClaimTypes.Name);
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Index"/> class.
@@ -35,15 +41,36 @@ namespace DriverTeacher.Pages.Teacher
         /// <returns>Serialized user comments.</returns>
         public IActionResult OnGetComments()
         {
-            var userName = this.User.FindFirstValue(ClaimTypes.Name);
-
             // Retrieves current user's comments
             var comments = this.context
                 .Comments
-                .Where(comment => comment.Username == userName)
+                .Where(comment => comment.Username == this.CurrentUsername)
                 .ToList();
 
             return new JsonResult(JsonSerializer.Serialize(comments));
+        }
+
+        /// <summary>
+        /// Handles new user command adding.
+        /// </summary>
+        /// <param name="dataJson">New comment data.</param>
+        /// <returns>Handled comment.</returns>
+        public IActionResult OnPostNewComment(string dataJson)
+        {
+            var (x, y, text) = JsonSerializer.Deserialize<(float, float, string)>(dataJson);
+            var newComment = new Comment
+            {
+                Username = this.CurrentUsername,
+                XCoord = x,
+                YCoord = y,
+                Text = HttpUtility.JavaScriptStringEncode(text)
+            };
+
+            this.context
+                .Comments
+                .Add(newComment);
+
+            return new JsonResult(JsonSerializer.Serialize(newComment));
         }
 
         public void OnGet()

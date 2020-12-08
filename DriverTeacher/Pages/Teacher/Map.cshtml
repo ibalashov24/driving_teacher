@@ -336,28 +336,82 @@
          L.marker([sign[0], sign[1]], {icon: signMarker}).addTo(map);
       }
       
-      $.ajax({
-          method: "GET",
-          url: "@Url.Page("/Teacher/Map")?handler=Comments",
-          data: "",
-          contentType: "application/json; charset=utf-8",
-          dataType: "json",
-          cache: false,
-          success: function(commentsJson) 
-          {
-              const comments = JSON.parse(commentsJson);   
-              for (const comment of comments) {
-                  L.popup({
-                        closeOnClick: false,
-                        closeButton: true,
-                        autoClose: false
-                  })
-                  .setLatLng([comment.XCoord, comment.YCoord])
-                  .setContent(comment.Text)
-                  .openOn(map);    
-              }
-          },
-          failure: function(){ }
-      });
- 
+      // Draws new user command on the map
+    function createCommentPopup(x, y, text)
+    {
+        L.popup({
+          loseOnClick: false,
+          closeButton: true,
+          autoClose: false
+        })
+        .setLatLng([x, y])
+        .setContent(text)
+        .openOn(map);    
+    }
+      
+    // Drawing user comments on the map
+    $.ajax({
+        method: "GET",
+        url: "@Url.Page("/Teacher/Map")?handler=Comments",
+        data: "",
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        cache: false,
+        success: function(commentsJson) 
+        {
+            const comments = JSON.parse(commentsJson);   
+            for (const comment of comments) {
+                createCommentPopup(comment.XCoord, comment.YCoord, comment.Text);
+            }
+        },
+        failure: function(){ }
+    });
+      
+    // New comment creating form
+    map.on("dblclick", function (e) {
+        L.popup({
+            minWidth: 300,
+            closeButton: true,
+            autoClose: false
+        })
+        .setLatLng(e.latlng)
+        .setContent(
+            `<div id="newCommentForm"> 
+                <div class="form-group">
+                    <textarea class="form-control" style="resize:none;" rows="3" id="newCommentText" placeholder="Type comment..."></textarea>
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-outline-primary btn-sm" id="btnAddComment">Save</button>
+                </div>
+            </div>`
+        ).openOn(map);
+          
+        $("#btnAddComment").on("click", function () {
+            const text = $("#newCommentText").val();
+            
+            $.ajax({
+                    method: "POST",
+                    url: "@Url.Page("/Teacher/Map")?handler=NewComment",
+                    beforeSend: function (xhr) {
+                                    xhr.setRequestHeader("XSRF-TOKEN",
+                                        $('input:hidden[name="__RequestVerificationToken"]').val());
+                                },
+                    data: JSON.stringify(
+                        {
+                            x: e.latlng.x,
+                            y: e.latlng.y,
+                            text: text
+                        }),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    cache: false,
+                    success: function() 
+                    {
+                        const comment = JSON.parse(commentJson);
+                        createCommentPopup(comment.XCoord, comment.YCoord, comment.Text)    
+                    },
+                    failure: function(){ }
+                });
+        });
+    });
 </script>
